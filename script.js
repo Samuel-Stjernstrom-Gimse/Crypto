@@ -364,9 +364,9 @@ async function updateUser() {
                 const coinValue = coin.amount * coinMarketValue;
                 totalPortfolioValue += coinValue;
                 const coinDiv = document.createElement('div');
-                coinDiv.textContent = `${coin.id}: ${coin.amount} coins | Value: ${coinValue.toFixed(2)} USD`;
+                coinDiv.textContent = `${coin.id}: ${cleanPrice(coin.amount.toString(), 3)} coins | Value: ${parseFloat(coinValue.toFixed(2))} USD`;
                 userCoins.appendChild(coinDiv);
-                console.log(`Coin: ${coin.id}, Amount: ${coin.amount}, Value: ${coinValue}`);
+                console.log(`Coin: ${coin.id}, Amount: ${coin.amount.toFixed(2)}, Value: ${coinValue}`);
             }
             else {
                 console.log(`Market data not found for ${coin.id}`);

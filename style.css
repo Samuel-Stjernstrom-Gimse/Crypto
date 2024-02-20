@@ -115,9 +115,19 @@ body {
 }
 
 #user-assets{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     color: white;
     position: absolute;
-    right: -14%;
+    right: -17%;
     top: 50%;
-    width: 130px;
+    width: 160px;
+    gap: 10px;
+}
+
+#user-coins{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
