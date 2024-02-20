@@ -17,6 +17,16 @@
         <h3 id="show-price"></h3>
         <h3 id="show-percent"></h3>
     </div>
+    <div id="user-assets">
+        <h3 id="user-name"></h3>
+        <h3 id="user-money-usd"></h3>
+        <h3 id="user-coin-value"></h3>
+        <div id="user-coins">
+
+        </div>
+
+    </div>
+
     <div id="select-div">
         <label for="currency"></label>
         <select  name="currency" id="currency"></select>
@@ -43,15 +53,16 @@
 
     </div>
 </div>
-<div>
+<div id="sort-div">
     <select name="sort" id="sort">
+        <option value="std">standard</option>
         <option value="priceH">price: high</option>
         <option value="priceL">price: low</option>
         <option value="24H">best24h</option>
         <option value="24L">worst24h</option>
-        <option value="std">standard</option>
     </select>
 </div>
+<div id="list"></div>
 
 
 <script type="module" src="script.js"></script>

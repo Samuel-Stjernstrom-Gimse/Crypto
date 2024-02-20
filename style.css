@@ -20,16 +20,18 @@ body {
 #coin-div {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 33px;
-    background-color: #3c3c3c;
     width: 70vw;
     margin-top: 4px;
     padding: 10px;
+    gap: 30px;
     color: white;
     padding-left: 20px;
     margin-left: 10px;
     border-radius: 2px;
+}
+
+#coin-div:hover {
+    background-color: #172028;
 }
 
 #chart{
@@ -58,7 +60,7 @@ body {
 
 }
 
-#time-frame, #currency {
+#time-frame, #currency, #sort {
     background-color: #3c3c3c;
     background-image: linear-gradient(23deg, rgb(243, 0, 255), rgb(0, 167, 255));
     color: white;
@@ -86,10 +88,36 @@ body {
     width: 140px;
 }
 #name {
-    width: 200px;
     font-size: 20px;
 }
 
 #symbol {
-    width: 100px;
+    font-size: 15px;
+    color: #fdfdfd;
+    opacity: 0.2;
+    font-weight: lighter;
+}
+
+#sort-div {
+    padding-bottom: 10px;
+    width: 70vw;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+#price-div {
+    width: 200px;
+    text-align: right;
+}
+
+#name-div {
+    width: 200px;
+}
+
+#user-assets{
+    color: white;
+    position: absolute;
+    right: -14%;
+    top: 50%;
+    width: 130px;
 }
