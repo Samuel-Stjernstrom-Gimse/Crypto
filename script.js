@@ -1,11 +1,11 @@
 import { cleanPrice } from './cleanPrice.js';
+import { getRandomColor } from './randomColor.js';
 const chartDiv = document.getElementById('chart');
 const selectChart = document.getElementById('currency');
 const canvasDiv = document.getElementById('canvas-div');
 const priceDiv = document.getElementById('price-div');
 const timeDiv = document.getElementById('time-div');
 const selectTime = document.getElementById('time-frame');
-const showcaseCoin = document.getElementById('showcase-coin');
 let listArray = [];
 let chartArray = [];
 const headers = new Headers({
@@ -40,7 +40,7 @@ async function getChart(targetArray, id, time) {
     }
 }
 function renderList(data) {
-    const ArDat = data.data;
+    const ArDat = [...data.data];
     ArDat.forEach((coin) => {
         const coinDiv = document.createElement('div');
         const name = document.createElement('h1');
@@ -51,8 +51,6 @@ function renderList(data) {
         option.textContent = coin.name;
         option.value = coin.id;
         selectChart.append(option);
-        name.id = 'name';
-        symbol.id = 'symbol';
         const priceChangeNum = parseFloat(cleanPrice(coin.changePercent24Hr, 3));
         if (priceChangeNum > 0) {
             priceChange.style.color = 'green';
@@ -61,10 +59,14 @@ function renderList(data) {
             priceChange.style.color = 'red';
         }
         coinDiv.id = 'coin-div';
-        priceChange.textContent = `${cleanPrice(coin.changePercent24Hr, 2)}%`;
+        name.id = 'name';
+        symbol.id = 'symbol';
+        priceChange.textContent = `${cleanPrice(coin.changePercent24Hr, 4)}% 24h`;
         name.textContent = coin.name;
         symbol.textContent = coin.symbol;
         priceUsd.textContent = `${cleanPrice(coin.priceUsd, 3)} USD`;
+        symbol.style.color = getRandomColor();
+        symbol.style.webkitTextStroke = '1px white';
         priceUsd.style.color = 'rgb(255,134,0)';
         coinDiv.append(name, symbol, priceUsd, priceChange);
         document.body.append(coinDiv);
@@ -84,7 +86,8 @@ function renderList(data) {
                 showPercent.style.color = 'red';
             }
             showName.style.color = 'white';
-            showLogo.style.color = 'rgb(247,0,255)';
+            showLogo.style.color = getRandomColor();
+            showLogo.style.webkitTextStroke = '1px white';
             showPrice.style.color = 'rgb(255,255,255)';
         }
     });
@@ -98,6 +101,11 @@ const drawchart = (array) => {
     timeDiv.innerHTML = '';
     const canvas = document.createElement('canvas');
     let context = canvas.getContext('2d');
+    if (context !== null) {
+    }
+    else {
+        console.error('Unable to get 2D context for canvas.');
+    }
     canvas.width = window.innerWidth * 0.7;
     canvas.height = window.innerHeight * 0.7;
     context.setTransform(1, 0, 0, 1, 0, 0);
@@ -123,8 +131,8 @@ const drawchart = (array) => {
     context.lineTo(startPoint, canvas.height);
     context.lineTo(startPoint, startValue);
     const grd = context.createLinearGradient(0, 0, canvas.width / 2, 0);
-    grd.addColorStop(0, 'rgb(114,0,255)');
-    grd.addColorStop(1, 'rgba(0,222,170,0.42)');
+    grd.addColorStop(0, 'rgba(114,0,255,0.75)');
+    grd.addColorStop(1, 'rgba(0,182,255,0.65)');
     context.fillStyle = grd;
     context.fill();
     context.stroke();

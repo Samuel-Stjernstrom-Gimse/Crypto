@@ -1,4 +1,5 @@
 import { cleanPrice } from './cleanPrice.js'
+import { getRandomColor } from './randomColor.js'
 
 const chartDiv = document.getElementById('chart') as HTMLDivElement
 const selectChart = document.getElementById('currency') as HTMLSelectElement
@@ -6,7 +7,6 @@ const canvasDiv = document.getElementById('canvas-div') as HTMLDivElement
 const priceDiv = document.getElementById('price-div') as HTMLDivElement
 const timeDiv = document.getElementById('time-div') as HTMLDivElement
 const selectTime = document.getElementById('time-frame') as HTMLSelectElement
-const showcaseCoin = document.getElementById('showcase-coin') as HTMLHeadingElement
 
 type User = {
 	name: string
@@ -51,7 +51,7 @@ async function getChart(targetArray: any, id: string, time: string) {
 }
 
 function renderList(data: any) {
-	const ArDat = data.data
+	const ArDat = [...data.data]
 
 	ArDat.forEach((coin: any) => {
 		const coinDiv = document.createElement('div') as HTMLDivElement
@@ -64,8 +64,7 @@ function renderList(data: any) {
 		option.textContent = coin.name
 		option.value = coin.id
 		selectChart.append(option)
-		name.id = 'name'
-		symbol.id = 'symbol'
+
 		// logic
 		const priceChangeNum = parseFloat(cleanPrice(coin.changePercent24Hr, 3))
 
@@ -76,12 +75,17 @@ function renderList(data: any) {
 		}
 		//id - classes
 		coinDiv.id = 'coin-div'
+		name.id = 'name'
+		symbol.id = 'symbol'
 		// text
-		priceChange.textContent = `${cleanPrice(coin.changePercent24Hr, 2)}%`
+		priceChange.textContent = `${cleanPrice(coin.changePercent24Hr, 4)}% 24h`
 		name.textContent = coin.name
 		symbol.textContent = coin.symbol
 		priceUsd.textContent = `${cleanPrice(coin.priceUsd, 3)} USD`
 		// style
+		symbol.style.color = getRandomColor()
+		symbol.style.webkitTextStroke = '1px white'
+
 		priceUsd.style.color = 'rgb(255,134,0)'
 		coinDiv.append(name, symbol, priceUsd, priceChange)
 		document.body.append(coinDiv)
@@ -104,7 +108,8 @@ function renderList(data: any) {
 			}
 
 			showName.style.color = 'white'
-			showLogo.style.color = 'rgb(247,0,255)'
+			showLogo.style.color = getRandomColor()
+			showLogo.style.webkitTextStroke = '1px white'
 			showPrice.style.color = 'rgb(255,255,255)'
 		}
 	})
@@ -119,7 +124,13 @@ const drawchart = (array: any) => {
 	timeDiv.innerHTML = ''
 
 	const canvas = document.createElement('canvas') as HTMLCanvasElement
-	let context: CanvasRenderingContext2D | null = canvas.getContext('2d')
+	// @ts-ignore
+	let context: CanvasRenderingContext2D = canvas.getContext('2d')
+
+	if (context !== null) {
+	} else {
+		console.error('Unable to get 2D context for canvas.')
+	}
 
 	canvas.width = window.innerWidth * 0.7
 	canvas.height = window.innerHeight * 0.7
@@ -154,8 +165,8 @@ const drawchart = (array: any) => {
 	context.lineTo(startPoint, startValue)
 
 	const grd = context.createLinearGradient(0, 0, canvas.width / 2, 0)
-	grd.addColorStop(0, 'rgb(114,0,255)')
-	grd.addColorStop(1, 'rgba(0,222,170,0.42)')
+	grd.addColorStop(0, 'rgba(114,0,255,0.75)')
+	grd.addColorStop(1, 'rgba(0,182,255,0.65)')
 
 	// Fill with gradient
 	context.fillStyle = grd
