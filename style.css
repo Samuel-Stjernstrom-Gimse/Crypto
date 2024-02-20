@@ -6,8 +6,15 @@
 }
 
 body {
-    background-color: #212121;
-    margin-top: 33vh;
+    background-color: #272525;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 #coin-div {
@@ -26,11 +33,27 @@ body {
 }
 
 #chart{
-    position: fixed;
-    height: 30vh;
-    width: 100vw;
-    background-color: #484848;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+    width: 70vw;
     top: 0;
     margin: 0;
     padding: 0;
+    margin-top: 20px;
+}
+
+#canvas {
+
+}
+
+#currency {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #3c3c3c;
+    color: white;
 }
