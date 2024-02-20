@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #272525;
+    background-color: #11181e;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -21,15 +21,15 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap: 33px;
     background-color: #3c3c3c;
-    width: 90vw;
-    margin-top: 10px;
+    width: 70vw;
+    margin-top: 4px;
     padding: 10px;
     color: white;
     padding-left: 20px;
     margin-left: 10px;
-    border-radius: 20px;
+    border-radius: 2px;
 }
 
 #chart{
@@ -43,17 +43,52 @@ body {
     top: 0;
     margin: 0;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 80px;
+    margin-bottom: 70px;
 }
 
 #canvas {
 
 }
 
-#currency {
+#select-div{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -10%;
+    left: 4%;
+
+}
+
+#time-frame, #currency {
     background-color: #3c3c3c;
+    background-image: linear-gradient(23deg, rgb(243, 0, 255), rgb(0, 167, 255));
     color: white;
+    font-weight: bolder;
+    font-size: 20px;
+    border: none;
+    padding: 5px;
+}
+#time-div {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    bottom: -8%;
+    flex-direction: row;
+    gap: 1%;
+}
+
+#showcase-coin {
+    position: absolute;
+    right: -15%;
+    top: 0;
+    flex-direction: column;
+}
+#name {
+    width: 200px;
+    font-size: 20px;
+}
+
+#symbol {
+    width: 100px;
 }

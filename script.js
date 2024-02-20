@@ -1,6 +1,11 @@
 import { cleanPrice } from './cleanPrice.js';
 const chartDiv = document.getElementById('chart');
 const selectChart = document.getElementById('currency');
+const canvasDiv = document.getElementById('canvas-div');
+const priceDiv = document.getElementById('price-div');
+const timeDiv = document.getElementById('time-div');
+const selectTime = document.getElementById('time-frame');
+const showcaseCoin = document.getElementById('showcase-coin');
 let listArray = [];
 let chartArray = [];
 const headers = new Headers({
@@ -21,9 +26,9 @@ async function getData(targetArray, url) {
         console.log(error);
     }
 }
-async function getChart(targetArray, id) {
+async function getChart(targetArray, id, time) {
     targetArray = '';
-    const priceChartChange = `https://api.coincap.io/v2/assets/${id}/history?interval=d1`;
+    const priceChartChange = `https://api.coincap.io/v2/assets/${id}/history?interval=${time}`;
     try {
         const result = await fetch(priceChartChange, { method: 'GET', headers: chartHeaders });
         targetArray = await result.json();
@@ -46,6 +51,8 @@ function renderList(data) {
         option.textContent = coin.name;
         option.value = coin.id;
         selectChart.append(option);
+        name.id = 'name';
+        symbol.id = 'symbol';
         const priceChangeNum = parseFloat(cleanPrice(coin.changePercent24Hr, 3));
         if (priceChangeNum > 0) {
             priceChange.style.color = 'green';
@@ -61,13 +68,38 @@ function renderList(data) {
         priceUsd.style.color = 'rgb(255,134,0)';
         coinDiv.append(name, symbol, priceUsd, priceChange);
         document.body.append(coinDiv);
+        if (coin.id === selectChart.value) {
+            const showName = document.getElementById('show-name');
+            const showLogo = document.getElementById('show-logo');
+            const showPrice = document.getElementById('show-price');
+            const showPercent = document.getElementById('show-percent');
+            showName.textContent = coin.name;
+            showLogo.textContent = symbol.textContent = coin.symbol;
+            showPrice.textContent = `${cleanPrice(coin.priceUsd, 3)} USD`;
+            showPercent.textContent = `${cleanPrice(coin.changePercent24Hr, 2)}% 24h`;
+            if (priceChangeNum > 0) {
+                showPercent.style.color = 'green';
+            }
+            else {
+                showPercent.style.color = 'red';
+            }
+            showName.style.color = 'white';
+            showLogo.style.color = 'rgb(247,0,255)';
+            showPrice.style.color = 'rgb(255,255,255)';
+        }
     });
 }
-const canvas = document.getElementById('canvas');
-let context = canvas.getContext('2d');
-canvas.width = window.innerWidth * 0.7;
-canvas.height = window.innerHeight * 0.7;
+selectChart.addEventListener('input', () => {
+    getData(listArray, assetsUrl);
+});
 const drawchart = (array) => {
+    canvasDiv.innerHTML = '';
+    priceDiv.innerHTML = '';
+    timeDiv.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+    canvas.width = window.innerWidth * 0.7;
+    canvas.height = window.innerHeight * 0.7;
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.clearRect(0, 0, innerWidth, innerHeight);
@@ -99,17 +131,36 @@ const drawchart = (array) => {
     for (let i = 0; i < 20; i++) {
         const price = min + (max - min) * (i / 19);
         const showPrice = document.createElement('h3');
+        showPrice.style.fontSize = '12px';
         showPrice.textContent = `${cleanPrice(price.toString(), 2)} USD`;
         showPrice.style.position = 'absolute';
         showPrice.style.color = 'rgb(111,111,111)';
         showPrice.style.bottom = `${(100 / 20) * i}%`;
-        showPrice.style.left = `-15%`;
-        chartDiv.append(showPrice);
-        selectChart.addEventListener('change', () => {
-            getChart(chartArray, selectChart.value);
-        });
+        showPrice.style.left = `-9%`;
+        priceDiv.append(showPrice);
     }
+    for (let i = 0; i < data.length; i += Math.floor(data.length / 15)) {
+        const index = Math.floor(i);
+        if (index < data.length) {
+            const time = document.createElement('h2');
+            const dateObject = new Date(data[index].time);
+            const formattedDate = `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            time.textContent = formattedDate;
+            timeDiv.append(time);
+            time.style.width = `${100 / 20}%`;
+            time.style.bottom = '-9%';
+            time.style.fontSize = '10px';
+            time.style.color = 'gray';
+        }
+    }
+    selectChart.addEventListener('change', () => {
+        getChart(chartArray, selectChart.value, selectTime.value);
+    });
+    selectTime.addEventListener('change', () => {
+        getChart(chartArray, selectChart.value, selectTime.value);
+    });
+    canvasDiv.append(canvas);
 };
 getData(listArray, assetsUrl);
-getChart(chartArray, 'bitcoin');
+getChart(chartArray, 'bitcoin', 'd1');
 //# sourceMappingURL=script.js.map

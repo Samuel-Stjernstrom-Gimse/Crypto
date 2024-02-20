@@ -11,11 +11,37 @@
 </head>
 <body>
 <div id="chart">
+    <div id="showcase-coin">
+        <h1 id="show-name"></h1>
+        <h2 id="show-logo"></h2>
+        <h3 id="show-price"></h3>
+        <h3 id="show-percent"></h3>
+    </div>
+    <div id="select-div">
+        <label for="currency"></label>
+        <select  name="currency" id="currency"></select>
 
-    <label for="currency"></label>
-    <select  name="currency" id="currency"></select>
+        <label for="time-frame"></label>
+        <select name="timeFrame" id="time-frame">
+            <option value="m1">m1</option>
+            <option value="m5">m5</option>
+            <option value="m15">m15</option>
+            <option value="m30">m30</option>
+            <option value="h1">h1</option>
+            <option value="h2">h2</option>
+            <option value="h6">h6</option>
+            <option value="h12">h12</option>
+            <option value="d1">d1<option>
+        </select>
+    </div>
+    <div id="canvas-div">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div id="price-div">
+    </div>
+    <div id="time-div">
 
-    <canvas id="canvas"></canvas>
+    </div>
 </div>
 
 
